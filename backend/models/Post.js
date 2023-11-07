@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const post_schema = mongoose.Schema({
+const post_schema = new mongoose.Schema({
     caption: String,
     imgUrl: {
         public_id: String,
@@ -28,4 +28,4 @@ const post_schema = mongoose.Schema({
     ]
 })
 
-module.exports = mongoose.model("posts", post_schema)
+module.exports = new mongoose.model("posts", post_schema)
