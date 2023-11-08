@@ -50,13 +50,13 @@ exports.login = async (req, res) => {
 
         else {
             const token = await user.genratetoken()
-            res.status(200).cookie("token", token).json({
+            res.status(200).cookie("token", token, { httpOnly: true }).json({
                 sucess: true,
                 user,
                 token
             })
         }
-        
+
     } catch (error) {
         res.status(500).json({
             sucess: false,
