@@ -49,7 +49,7 @@ userSchema.methods.matchpass = async function (password) {
 // genrating a tokken 
 
 userSchema.methods.genratetoken = async function () {
-    return jwt.sign({ id: this._id }, process.env.JWT)
+    return jwt.sign({ _id: this._id }, process.env.JWT)
 }
 
 module.exports = new mongoose.model("users", userSchema)

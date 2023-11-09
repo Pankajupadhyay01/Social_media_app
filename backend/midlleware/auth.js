@@ -4,21 +4,21 @@ const jwt = require("jsonwebtoken")
 
 exports.isAuth = async (req, res, next) => {
     try {
-        const token = req.cookies
+        const { token } = req.cookies
         if (!token) {
             res.status(400).json({
                 sucess: false,
-                msg: "Please Try To Login Before You Post"
+                msg: "Please Login"
             })
         } else {
             const user = jwt.verify(token, process.env.JWT)
-            req.user = await User.find(user._id)
+            req.user = await User.findById(user._id)
             next()
         }
     } catch (err) {
         res.status(500).json({
-            sucess:false,
-            msg:err
+            sucess: false,
+            msg: err.message
         })
     }
 }

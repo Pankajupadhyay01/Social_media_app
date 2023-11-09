@@ -12,9 +12,8 @@ app.use(cookieParser())
 const userRouter = require("./routes/user")
 const postRouter = require("./routes/post")
 
-app.use("/api/v1", userRouter)
-app.use("/api/v1", userRouter)
-app.use("/api/v1", postRouter)
+app.use("/api/v1", userRouter) 
+app.use("/api/v1", postRouter) 
 
 
 // path for env file set up
