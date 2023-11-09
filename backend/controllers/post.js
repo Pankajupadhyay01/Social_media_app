@@ -53,3 +53,25 @@ exports.comment = async (req, res) => {
         })
     }
 }
+
+exports.comment = async (req, res) => {
+    try {
+        const message = {
+            user: req.user._id,
+            comment: req.body.comment
+        }
+        const post = await Post.findById(req.params.id)
+        post.comments.push(message)
+        await post.save()
+
+        res.status(200).json({
+            sucess: true,
+            message: "comment sent sucessfully"
+        })
+    } catch (err) {
+        res.status(500).json({
+            sucess: false,
+            msg: err.message
+        })
+    }
+}
