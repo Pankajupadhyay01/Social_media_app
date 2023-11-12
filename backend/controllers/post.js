@@ -5,7 +5,7 @@ const User = require("../models/User")
 exports.createpost = async (req, res) => {
     try {
         const postdata = {
-            caption: res.body,
+            caption: req.body.caption,
             imgUrl: {
                 public_id: "String",
                 Url: "String",
@@ -27,25 +27,38 @@ exports.createpost = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             sucess: false,
-            msg: "Oops.. Something went wrong"
+            msg: err.message
         })
     }
 }
 
-exports.comment = async (req, res) => {
+exports.deletePost = async (req, res) => {
     try {
-        const message = {
-            user: req.user._id,
-            comment: req.body.comment
+        const id = req.params.id
+        const ispost = await Post.findById(req.params.id);
+        if (ispost) {
+            if (ispost.owner.toString() == req.user.id.toString()) {
+                await Post.findByIdAndDelete(id);
+                const user = await User.findById(req.user.id);
+                let index = user.post.findIndex(x => x._id == id)
+                await user.post.splice(index, 1);
+                await user.save()
+                return res.status(200).json({
+                    sucess: true,
+                    msg: "Your post is Deleted"
+                })
+            }
+            res.status(401).json({
+                sucess: false,
+                msg: "You are not allowed to delete"
+            })
         }
-        const post = await Post.findById(req.params.id)
-        post.comments.push(message)
-        await post.save()
-
-        res.status(200).json({
-            sucess: true,
-            message: "comment sent sucessfully"
-        })
+        else {
+            return res.status(401).json({
+                sucess: false,
+                msg: "No post found"
+            })
+        }
     } catch (err) {
         res.status(500).json({
             sucess: false,
@@ -61,13 +74,21 @@ exports.comment = async (req, res) => {
             comment: req.body.comment
         }
         const post = await Post.findById(req.params.id)
-        post.comments.push(message)
-        await post.save()
+      
+        if (post) {
+            post.comments.push(message)
+            await post.save()
+            return res.status(200).json({
+                sucess: true,
+                message: "comment sent sucessfully"
+            })
+        } else {
+            return res.status(404).json({
+                sucess: false,
+                message: "Post not exist"
+            })
+        }
 
-        res.status(200).json({
-            sucess: true,
-            message: "comment sent sucessfully"
-        })
     } catch (err) {
         res.status(500).json({
             sucess: false,

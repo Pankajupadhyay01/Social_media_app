@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-
+var mongodb = require('mongodb');
 const post_schema = new mongoose.Schema({
     caption: String,
     imgUrl: {

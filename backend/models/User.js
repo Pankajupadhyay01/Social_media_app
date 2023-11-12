@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+var mongodb = require('mongodb');
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const userSchema = new mongoose.Schema({
@@ -22,11 +23,8 @@ const userSchema = new mongoose.Schema({
     },
     post: [
         {
-            user: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Post"
-            }
-
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Post"
         }
     ]
 })
