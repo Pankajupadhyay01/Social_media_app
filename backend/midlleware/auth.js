@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken")
 exports.isAuth = async (req, res, next) => {
     try {
         const { token } = req.cookies
-        if (!token) {
+        if (token == null) {
             res.status(400).json({
                 sucess: false,
                 msg: "Please Login"

@@ -38,6 +38,7 @@ exports.deletePost = async (req, res) => {
         const ispost = await Post.findById(req.params.id);
         if (ispost) {
             if (ispost.owner.toString() == req.user.id.toString()) {
+                
                 await Post.findByIdAndDelete(id);
                 const user = await User.findById(req.user.id);
                 let index = user.post.findIndex(x => x._id == id)
@@ -67,6 +68,12 @@ exports.deletePost = async (req, res) => {
     }
 }
 
+// update post 
+
+// update comment 
+
+// delete comment   
+
 exports.comment = async (req, res) => {
     try {
         const message = {
@@ -74,7 +81,7 @@ exports.comment = async (req, res) => {
             comment: req.body.comment
         }
         const post = await Post.findById(req.params.id)
-      
+
         if (post) {
             post.comments.push(message)
             await post.save()
@@ -96,3 +103,4 @@ exports.comment = async (req, res) => {
         })
     }
 }
+
