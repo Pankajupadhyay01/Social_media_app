@@ -114,7 +114,7 @@ exports.updateProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user.id)
         const { name, email } = req.body
-        
+
         if (user.name == name || user.email == email) {
             res.status(400).json({
                 sucess: false,
@@ -139,6 +139,29 @@ exports.updateProfile = async (req, res) => {
 }
 
 // find user
+exports.findUser = async (req, res) => {
+    try {
+        const userId = req.params.id
+        const isUser = await User.findById(userId) 
+        if (!isUser) {
+            res.status(400).json({
+                sucess: false,
+                msg: "User not found"
+            })
+        } else {
+            res.status(200).json({
+                sucess: true,
+                msg: "user Found",
+                isUser
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            sucess: false,
+            msg: err.message
+        })
+    }
+}
 
 // show me my profile
 
