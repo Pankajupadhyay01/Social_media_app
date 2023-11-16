@@ -110,6 +110,33 @@ exports.updatePass = async (req, res) => {
 }
 
 // update profile
+exports.updateProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id)
+        const { name, email } = req.body
+        
+        if (user.name == name || user.email == email) {
+            res.status(400).json({
+                sucess: false,
+                msg: "Same Name or email is present in the database"
+            })
+        }
+        else {
+            user.email = email
+            user.name = name
+            await user.save()
+            res.status(200).json({
+                sucess: true,
+                msg: "Profile updated"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            sucess: false,
+            msg: error.message
+        })
+    }
+}
 
 // find user
 
