@@ -138,11 +138,16 @@ exports.updateProfile = async (req, res) => {
     }
 }
 
+// follow/unfollow
+exports.follow = async (req, res) => {
+
+}
+
 // find user
 exports.findUser = async (req, res) => {
     try {
         const userId = req.params.id
-        const isUser = await User.findById(userId).populate("posts")
+        const isUser = await User.findById(userId).populate("post")
         if (!isUser) {
             res.status(400).json({
                 sucess: false,
@@ -164,13 +169,13 @@ exports.findUser = async (req, res) => {
 }
 
 // show me my profile
-
-// delete my profile
-
-// get all user
-const getAlluser = async (req, res) => {
+exports.profile = async (req, res) => {
     try {
-
+        const user = await User.findById(req.user.id).populate("post")
+        res.status(200).json({
+            sucess: true,
+            user
+        })
     } catch (err) {
         res.status(500).json({
             sucess: false,
@@ -178,4 +183,21 @@ const getAlluser = async (req, res) => {
         })
     }
 }
-// follow/unfollow
+// delete my profile
+
+// get all user
+exports.getAlluser = async (req, res) => {
+    try {
+        const user = await User.find()
+        res.status(200).json({
+            sucess: true,
+            user
+        })
+    } catch (err) {
+        res.status(500).json({
+            sucess: false,
+            msg: err.message
+        })
+    }
+}
+
