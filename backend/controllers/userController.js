@@ -140,7 +140,33 @@ exports.updateProfile = async (req, res) => {
 
 // follow/unfollow
 exports.follow = async (req, res) => {
+    try {
+        const usertofollow = await User.findById(req.params.id)
+        const personal = await User.findById(req.user.id)
 
+        if (!usertofollow) {
+            res.status(500).json({
+                sucess: false,
+                msg: "user not found"
+            })
+        } else {
+            usertofollow.follower.push(req.user.id)
+            personal.following.push(usertofollow.id)
+            usertofollow.save()
+            personal.save()
+
+            res.status(200).json({
+                sucess: true,
+                msg: "user followed"
+            })
+
+        }
+    } catch (error) {
+        res.status(500).json({
+            sucess: false,
+            msg: error.message
+        })
+    }
 }
 
 // find user
