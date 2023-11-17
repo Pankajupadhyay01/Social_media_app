@@ -9,7 +9,7 @@ router.route("/user/login").post(login)
 router.route("/user/logout").get(logout)
 router.route("/user/updatepass").put(isAuth, updatePass)
 router.route("/user/updateprofile").put(isAuth, updateProfile)
-router.route("/user/finduser/:id").get(findUser)
+router.route("/user/finduser/:id").get(isAuth, findUser)
 
 
 module.exports = router 

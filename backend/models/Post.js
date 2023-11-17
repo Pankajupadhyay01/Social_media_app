@@ -8,7 +8,7 @@ const post_schema = new mongoose.Schema({
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: "users",    
     },
     createdAt: {
         type: Date,
@@ -18,7 +18,7 @@ const post_schema = new mongoose.Schema({
         {
             user: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
+                ref: "users",
             },
             comment: {
                 type: String,

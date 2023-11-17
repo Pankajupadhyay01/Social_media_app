@@ -1,5 +1,5 @@
 const User = require("../models/User")
-
+const Post = require("../models/Post")
 exports.createUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -142,7 +142,7 @@ exports.updateProfile = async (req, res) => {
 exports.findUser = async (req, res) => {
     try {
         const userId = req.params.id
-        const isUser = await User.findById(userId) 
+        const isUser = await User.findById(userId).populate("posts")
         if (!isUser) {
             res.status(400).json({
                 sucess: false,
@@ -165,6 +165,17 @@ exports.findUser = async (req, res) => {
 
 // show me my profile
 
-// get all user
+// delete my profile
 
+// get all user
+const getAlluser = async (req, res) => {
+    try {
+
+    } catch (err) {
+        res.status(500).json({
+            sucess: false,
+            msg: err.message
+        })
+    }
+}
 // follow/unfollow
