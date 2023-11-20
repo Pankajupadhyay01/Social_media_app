@@ -38,7 +38,7 @@ exports.deletePost = async (req, res) => {
         const ispost = await Post.findById(req.params.id);
         if (ispost) {
             if (ispost.owner.toString() == req.user.id.toString()) {
-                
+
                 await Post.findByIdAndDelete(id);
                 const user = await User.findById(req.user.id);
                 let index = user.post.findIndex(x => x._id == id)
@@ -69,7 +69,30 @@ exports.deletePost = async (req, res) => {
 }
 
 // update post 
-
+exports.updatePost = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+        const caption = req.body.caption
+        if (post && post.owner == req.user.id) {
+            post.caption = caption
+            post.save( )
+            res.status(200).json({
+                sucess: false,
+                msg: "post updated"
+            })
+        } else {
+            res.status(400).json({
+                sucess: false,
+                msg: "post not found"
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            sucess: false,
+            msg: err.message
+        })
+    }
+}
 // update comment 
 
 // delete comment   

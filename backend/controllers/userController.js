@@ -149,6 +149,21 @@ exports.follow = async (req, res) => {
                 sucess: false,
                 msg: "user not found"
             })
+        }
+        if (usertofollow.follower.includes(personal._id)) {
+            let indexfollower = await usertofollow.follower.findIndex(x => x._id == personal)
+            let indexfollowing = await personal.following.findIndex(x => x._id == usertofollow)
+
+            await usertofollow.follower.splice(indexfollower, 1)
+            await personal.following.splice(indexfollowing, 1)
+
+            usertofollow.save()
+            personal.save()
+
+            res.status(200).json({
+                sucess: true,
+                msg: "user unfollowed"
+            })
         } else {
             usertofollow.follower.push(req.user.id)
             personal.following.push(usertofollow.id)
@@ -209,7 +224,6 @@ exports.profile = async (req, res) => {
         })
     }
 }
-// delete my profile
 
 // get all user
 exports.getAlluser = async (req, res) => {
@@ -227,3 +241,20 @@ exports.getAlluser = async (req, res) => {
     }
 }
 
+// delete my profile
+exports.deleteprofile = async (req, res) => {
+    try {
+        const userid = req.user.id
+        const user = await User.findByIdAndDelete(userid)
+        user.save()
+        res.status(200).json({
+            sucess: true,
+            msg: "User Deleted"
+        })
+    } catch (err) {
+        res.status(500).json({
+            sucess: false,
+            msg: err.message
+        })
+    }
+}
