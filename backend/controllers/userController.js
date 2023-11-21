@@ -245,8 +245,22 @@ exports.getAlluser = async (req, res) => {
 exports.deleteprofile = async (req, res) => {
     try {
         const userid = req.user.id
-        const user = await User.findByIdAndDelete(userid)
-        user.save()
+        const user = await User.findById(userid)
+        const posts = await user.post
+
+        const Remove = await User.findByIdAndDelete(userid)
+
+        res.cookie("token", null, {
+            httpOnly: true,
+        });
+
+        // removing all associated post 
+        for (let i = 0; i < posts.length; i++) {
+            await Post.findByIdAndDelete(posts[i])
+        }
+
+        // removing associate follower
+
         res.status(200).json({
             sucess: true,
             msg: "User Deleted"
