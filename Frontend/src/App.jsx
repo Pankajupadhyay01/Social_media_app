@@ -1,8 +1,14 @@
-import React from 'react'
+import { BrowserRouter, Link, Routes, Route, Navigate } from "react-router-dom";
+import Navbar from "./Component/Navbar";
 
 const App = () => {
   return (
-    <div className='text-blue-900 font-extrabold'>App</div>
+    <>
+      <BrowserRouter >
+        <Navbar />
+
+      </BrowserRouter >
+    </>
   )
 }
 
