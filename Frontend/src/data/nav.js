@@ -20,7 +20,7 @@ export const nav = [
     {
         title: "Login",
         icon: IoPersonCircleSharp,
-        link: "/"
+        link: "/login"
     }
 
 ]

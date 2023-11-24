@@ -11,7 +11,7 @@ const Navbar = () => {
           {
             nav.map((pro, i) => (
               <div key={i} className=' text-black w-full flex flex-col justify-center items-center capitalize'>
-                <Link to={pro.link} className=' bg-cyan  w-auto p-2 rounded-full text-blue-900 font-bold text-[20px]'>
+                <Link to={pro.link} className='w-auto p-2 rounded-full text-blue-900 font-bold text-[20px] hover:translate-y-[-2px]'>
                   <pro.icon />
                 </Link >
                 <Link to={pro.link} className='font-[20px] text-blue-900'>
